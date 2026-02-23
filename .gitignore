@@ -1,0 +1,25 @@
+# Cartelle di compilazione e file temporanei
+target/
+lib_managed/
+src_managed/
+bin/
+.cache
+.history
+
+# SBT specifico
+.sbt/
+.bsp/
+.bloop/
+.metals/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# File di sistema
+.DS_Store
+*.swp
+*.class
