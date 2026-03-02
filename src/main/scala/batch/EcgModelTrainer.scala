@@ -18,7 +18,6 @@ object EcgModelTrainer {
       .master(Config.SPARK_MASTER)
       .config("spark.driver.host", "127.0.0.1")
       .config("spark.driver.bindAddress", "127.0.0.1")
-      .config("spark.sql.codegen.wholeStage", "false")
       .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension")
       .config("spark.sql.catalog.spark_catalog", "org.apache.spark.sql.delta.catalog.DeltaCatalog")
       .getOrCreate()
@@ -62,8 +61,8 @@ object EcgModelTrainer {
     val rf = new RandomForestClassifier()
       .setLabelCol("label")
       .setFeaturesCol("features")
-      .setNumTrees(50)
-      .setMaxDepth(10)
+      .setNumTrees(100)
+      .setMaxDepth(15)
 
     val pipeline = new Pipeline().setStages(Array(indexer, assembler, rf))
 
@@ -80,7 +79,7 @@ object EcgModelTrainer {
       .setMetricName("accuracy")
 
     val accuracy = evaluator.evaluate(predictions)
-    println(s"=== ACCURATEZZA DEL MODELLO: ${accuracy * 100}%.2f ===")
+    println(f"=== ACCURATEZZA DEL MODELLO: ${accuracy * 100}%.2f%% ===")
 
     val modelPath = Config.ML_MODEL_PATH
     println(s"Salvataggio della Pipeline completa su disco nella directory: $modelPath ...")
